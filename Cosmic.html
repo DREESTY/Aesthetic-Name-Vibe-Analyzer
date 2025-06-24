@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ Aesthetic Name Vibe Analyzer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Crimson+Text:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Text', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ffd700, #ffb6c1, #e6e6fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .input-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .input-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: #4a5568;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-family: 'Crimson Text', serif;
+            transition: all 0.3s ease;
+            background: rgba(248, 250, 252, 0.8);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #9f7aea;
+            box-shadow: 0 0 20px rgba(159, 122, 234, 0.3);
+            transform: scale(1.02);
+        }
+
+        .analyze-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-family: 'Cinzel', serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(248,250,252,0.95));
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.2);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .result-card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .result-name {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 15px;
+        }
+
+        .result-description {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: #2d3748;
+            font-style: italic;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .traits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .trait-box {
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .trait-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+        }
+
+        .trait-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .trait-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+
+        .trait-value {
+            font-size: 1rem;
+            color: #718096;
+        }
+
+        .constellation-story {
+            background: linear-gradient(135deg, #2d3748, #4a5568);
+            color: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .constellation-story h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+
+        .constellation-story p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(180deg); }
+        }
+
+        .sparkle {
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .input-card, .result-card {
+                padding: 25px;
+            }
+            
+            .traits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="sparkle">✨ Aesthetic Name Vibe Analyzer ✨</h1>
+            <p>Discover your cosmic essence and mystical aura</p>
+        </div>
+
+        <div class="input-card">
+            <form id="vibeForm">
+                <div class="form-group">
+                    <label for="name">🌙 Your Name</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your mystical name...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="birthdate">✨ Your Birthdate</label>
+                    <input type="date" id="birthdate" name="birthdate" required>
+                </div>
+                
+                <button type="submit" class="analyze-btn">Unveil My Cosmic Essence</button>
+            </form>
+        </div>
+
+        <div id="resultCard" class="result-card">
+            <div class="result-header">
+                <div class="result-name" id="resultName"></div>
+                <div class="result-description" id="resultDescription"></div>
+            </div>
+            
+            <div class="traits-grid">
+                <div class="trait-box">
+                    <span class="trait-icon">🌸</span>
+                    <div class="trait-title">Sacred Flower</div>
+                    <div class="trait-value" id="flowerTrait"></div>
+                </div>
+                
+                <div class="trait-box">
+                    <span class="trait-icon">🎨</span>
+                    <div class="trait-title">Mystical Color</div>
+                    <div class="trait-value" id="colorTrait"></div>
+                </div>
+                
+                <div class="trait-box">
+                    <span class="trait-icon">♈</span>
+                    <div class="trait-title">Zodiac Sign</div>
+                    <div class="trait-value" id="zodiacTrait"></div>
+                </div>
+                
+                <div class="trait-box">
+                    <span class="trait-icon">🌟</span>
+                    <div class="trait-title">Gen Z Essence</div>
+                    <div class="trait-value" id="genZTraits"></div>
+                </div>
+            </div>
+            
+            <div class="constellation-story">
+                <h3 id="constellationName"></h3>
+                <p id="constellationStory"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Zodiac signs data
+        const zodiacSigns = [
+            { name: "Capricorn", start: [12, 22], end: [1, 19], emoji: "♑" },
+            { name: "Aquarius", start: [1, 20], end: [2, 18], emoji: "♒" },
+            { name: "Pisces", start: [2, 19], end: [3, 20], emoji: "♓" },
+            { name: "Aries", start: [3, 21], end: [4, 19], emoji: "♈" },
+            { name: "Taurus", start: [4, 20], end: [5, 20], emoji: "♉" },
+            { name: "Gemini", start: [5, 21], end: [6, 20], emoji: "♊" },
+            { name: "Cancer", start: [6, 21], end: [7, 22], emoji: "♋" },
+            { name: "Leo", start: [7, 23], end: [8, 22], emoji: "♌" },
+            { name: "Virgo", start: [8, 23], end: [9, 22], emoji: "♍" },
+            { name: "Libra", start: [9, 23], end: [10, 22], emoji: "♎" },
+            { name: "Scorpio", start: [10, 23], end: [11, 21], emoji: "♏" },
+            { name: "Sagittarius", start: [11, 22], end: [12, 21], emoji: "♐" }
+        ];
+
+        // Gen Z traits
+        const genZTraits = [
+            "Independent", "Skeptical", "Adaptable", "Tech-savvy", "Entrepreneurial",
+            "Authentic", "Inclusive", "Creative", "Pragmatic", "Resilient",
+            "Socially conscious", "Ambitious", "Self-reliant", "Open-minded", "Resourceful"
+        ];
+
+        // Flowers and colors
+        const aestheticPairs = [
+            { flower: "Moonlit Orchid", color: "Lavender Dusk" },
+            { flower: "Starlight Peony", color: "Rose Gold" },
+            { flower: "Twilight Jasmine", color: "Midnight Blue" },
+            { flower: "Dawn Chrysanthemum", color: "Soft Coral" },
+            { flower: "Ethereal Lily", color: "Pearl White" },
+            { flower: "Mystic Rose", color: "Deep Burgundy" },
+            { flower: "Celestial Dahlia", color: "Silver Mist" },
+            { flower: "Enchanted Iris", color: "Amethyst Purple" },
+            { flower: "Whispering Magnolia", color: "Sage Green" },
+            { flower: "Dreaming Poppy", color: "Golden Amber" },
+            { flower: "Sacred Lotus", color: "Blush Pink" },
+            { flower: "Phantom Tulip", color: "Stormy Grey" }
+        ];
+
+        // Constellations with stories
+        const constellations = [
+            {
+                name: "🦢 The Silent Swan",
+                story: "Glides through twilight skies, carrying dreams between worlds. Those blessed by the Silent Swan move with grace through life's mysteries, finding beauty in quiet moments."
+            },
+            {
+                name: "🌙 The Crescent Keeper",
+                story: "Guards the secrets of the night, whispering ancient wisdom to those who listen. The Crescent Keeper bestows intuition and the ability to see beyond the veil."
+            },
+            {
+                name: "⭐ The Wandering Phoenix",
+                story: "Rises from stardust, eternal and radiant. Those under this constellation are blessed with resilience and the power to transform any ending into a beautiful beginning."
+            },
+            {
+                name: "🦋 The Twilight Butterfly",
+                story: "Dances between dimensions, painting the sky with cosmic colors. This constellation grants its children the gift of transformation and ethereal beauty."
+            },
+            {
+                name: "🌺 The Blooming Crown",
+                story: "A circle of celestial flowers that blooms once every thousand years. Those guided by this constellation are natural leaders who inspire growth in others."
+            },
+            {
+                name: "🕊️ The Whispering Dove",
+                story: "Carries messages between souls across the universe. This constellation blesses its children with deep empathy and the ability to heal hearts with words."
+            },
+            {
+                name: "🦌 The Mystic Stag",
+                story: "Roams the cosmic forests, leading lost souls to their destiny. Those born under this sign are natural guides and protectors of the innocent."
+            },
+            {
+                name: "🌊 The Eternal Wave",
+                story: "Flows through the cosmos, bringing change and renewal. This constellation grants its children the wisdom to embrace life's ebbs and flows with grace."
+            }
+        ];
+
+        function getZodiacSign(birthdate) {
+            const date = new Date(birthdate);
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+
+            for (let sign of zodiacSigns) {
+                const [startMonth, startDay] = sign.start;
+                const [endMonth, endDay] = sign.end;
+
+                if (
+                    (month === startMonth && day >= startDay) ||
+                    (month === endMonth && day <= endDay) ||
+                    (startMonth > endMonth && (month === startMonth || month === endMonth))
+                ) {
+                    return sign;
+                }
+            }
+            return zodiacSigns[0]; // Default to Capricorn
+        }
+
+        function getRandomElements(array, count) {
+            const shuffled = array.sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count);
+        }
+
+        function generateVibeReport(name, birthdate) {
+            const zodiac = getZodiacSign(birthdate);
+            const traits = getRandomElements(genZTraits, 3);
+            const aesthetic = aestheticPairs[Math.floor(Math.random() * aestheticPairs.length)];
+            const constellation = constellations[Math.floor(Math.random() * constellations.length)];
+
+            const descriptions = [
+                `${name} — a ${aesthetic.flower.toLowerCase()} kissed by ${aesthetic.color.toLowerCase()}. Your aura whispers of quiet rebellion and ancient wisdom. As a ${zodiac.name}, you ${getZodiacDescription(zodiac.name)}.`,
+                `${name} — like a ${aesthetic.flower.toLowerCase()} blooming in ${aesthetic.color.toLowerCase()} twilight. Your essence dances between worlds, carrying the spirit of ${traits[0].toLowerCase()} grace. As a ${zodiac.name}, you ${getZodiacDescription(zodiac.name)}.`,
+                `${name} — a mystical being wrapped in ${aesthetic.color.toLowerCase()} dreams and ${aesthetic.flower.toLowerCase()} petals. Your soul carries the wisdom of ages. As a ${zodiac.name}, you ${getZodiacDescription(zodiac.name)}.`
+            ];
+
+            return {
+                name,
+                description: descriptions[Math.floor(Math.random() * descriptions.length)],
+                flower: aesthetic.flower,
+                color: aesthetic.color,
+                zodiac: `${zodiac.emoji} ${zodiac.name}`,
+                traits: traits.join(", "),
+                constellation
+            };
+        }
+
+        function getZodiacDescription(sign) {
+            const descriptions = {
+                "Aries": "blaze trails with fierce determination",
+                "Taurus": "find beauty in life's simple pleasures",
+                "Gemini": "weave stories from stardust and moonbeams",
+                "Cancer": "nurture dreams with tender devotion",
+                "Leo": "shine with the radiance of a thousand suns",
+                "Virgo": "craft perfection from cosmic chaos",
+                "Libra": "balance the stars with ethereal grace",
+                "Scorpio": "dive deep into life's hidden mysteries",
+                "Sagittarius": "chase horizons beyond mortal sight",
+                "Capricorn": "climb mountains made of moonlight",
+                "Aquarius": "pour wisdom like celestial rain",
+                "Pisces": "swim through oceans of infinite dreams"
+            };
+            return descriptions[sign] || "carry the magic of the cosmos";
+        }
+
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set max date to today
+            document.getElementById('birthdate').max = new Date().toISOString().split('T')[0];
+            
+            document.getElementById('vibeForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('name').value.trim();
+                const birthdate = document.getElementById('birthdate').value;
+                
+                // Validation
+                if (!name) {
+                    alert('Please enter your name ✨');
+                    return;
+                }
+                
+                if (!birthdate) {
+                    alert('Please select your birthdate 🌙');
+                    return;
+                }
+                
+                console.log('Generating report for:', name, birthdate); // Debug log
+                
+                const report = generateVibeReport(name, birthdate);
+                
+                console.log('Generated report:', report); // Debug log
+                
+                // Populate results
+                document.getElementById('resultName').textContent = report.name;
+                document.getElementById('resultDescription').textContent = report.description;
+                document.getElementById('flowerTrait').textContent = report.flower;
+                document.getElementById('colorTrait').textContent = report.color;
+                document.getElementById('zodiacTrait').textContent = report.zodiac;
+                document.getElementById('genZTraits').textContent = report.traits;
+                document.getElementById('constellationName').textContent = report.constellation.name;
+                document.getElementById('constellationStory').textContent = report.constellation.story;
+                
+                // Show results with animation
+                const resultCard = document.getElementById('resultCard');
+                setTimeout(() => {
+                    resultCard.classList.add('show');
+                    resultCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>

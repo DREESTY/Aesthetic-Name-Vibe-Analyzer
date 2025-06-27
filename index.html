@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ Aesthetic Name Vibe Analyzer</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Crimson+Text:ital,wght@0,400;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="sparkle">✨ Aesthetic Name Vibe Analyzer ✨</h1>
+            <p>Discover your cosmic essence and mystical aura</p>
+        </div>
+
+        <div class="input-card">
+            <form id="vibeForm">
+                <div class="form-group">
+                    <label for="name">🌙 Your Name</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your mystical name...">
+                </div>
+
+                <div class="form-group">
+                    <label for="birthdate">✨ Your Birthdate</label>
+                    <input type="date" id="birthdate" name="birthdate" required>
+                </div>
+
+                <button type="submit" class="analyze-btn">Unveil My Cosmic Essence</button>
+            </form>
+        </div>
+
+        <div id="resultCard" class="result-card">
+            <div class="result-header">
+                <div class="result-name" id="resultName"></div>
+                <div class="result-description" id="resultDescription"></div>
+            </div>
+
+            <div class="traits-grid">
+                <div class="trait-box">
+                    <span class="trait-icon">🌸</span>
+                    <div class="trait-title">Sacred Flower</div>
+                    <div class="trait-value" id="flowerTrait"></div>
+                </div>
+
+                <div class="trait-box">
+                    <span class="trait-icon">🎨</span>
+                    <div class="trait-title">Mystical Color</div>
+                    <div class="trait-value" id="colorTrait"></div>
+                </div>
+
+                <div class="trait-box">
+                    <span class="trait-icon">♈</span>
+                    <div class="trait-title">Zodiac Sign</div>
+                    <div class="trait-value" id="zodiacTrait"></div>
+                </div>
+
+                <div class="trait-box">
+                    <span class="trait-icon">🌟</span>
+                    <div class="trait-title">Gen Z Essence</div>
+                    <div class="trait-value" id="genZTraits"></div>
+                </div>
+            </div>
+
+            <div class="constellation-story">
+                <h3 id="constellationName"></h3>
+                <p id="constellationStory"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
